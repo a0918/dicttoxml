@@ -224,8 +224,7 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
             if attr_type:
                 attr['type'] = get_xml_type(val)
     
-            if list(val.keys())[0] == '@attrs':
-                # If first item is @attrs
+            if '@attrs' in list(val.keys()):
                 
                 custom_attrs = val['@attrs']
                 val.pop('@attrs', None)

@@ -19,6 +19,7 @@ import collections
 import numbers
 import logging
 from xml.dom.minidom import parseString
+from IPython import embed
 
 
 LOG = logging.getLogger("dicttoxml")
@@ -291,12 +292,15 @@ def convert_list(items, ids, parent, attr_type, item_func, cdata):
             
         elif isinstance(item, dict):
             if not attr_type:
-                addline('<%s>%s</%s>' % (
-                    item_name, 
-                    convert_dict(item, ids, parent, attr_type, item_func, cdata),
-                    item_name, 
-                    )
-                )
+                if list(item.keys())[0] == 'SchemaValue':
+                    addline('%s' % (
+		    convert_dict(item, ids, parent, attr_type, item_func, cdata)))
+                else:
+                    addline('<%s>%s</%s>' % (
+		    item_name, 
+		    convert_dict(item, ids, parent, attr_type, item_func, cdata),
+		    item_name)
+		    )
             else:
                 addline('<%s type="dict">%s</%s>' % (
                     item_name, 
